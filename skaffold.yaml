@@ -1,0 +1,39 @@
+apiVersion: skaffold/v2beta24
+kind: Config
+metadata:
+  name: otus-micro
+build:
+  tagPolicy:
+    envTemplate:
+      template: "v1"
+  artifacts:
+    - image: strider2038/otus-micro-3-user-service
+      context: .
+      docker:
+        dockerfile: build/package/user-service/Dockerfile
+        buildArgs:
+          APP_VERSION: local
+    - image: strider2038/otus-micro-3-migrations
+      context: .
+      docker:
+        dockerfile: build/package/migrations/Dockerfile
+    - image: strider2038/otus-micro-3-db-waiter
+      context: .
+      docker:
+        dockerfile: build/package/db-waiter/Dockerfile
+deploy:
+  helm:
+    releases:
+      - name: "postgres"
+        namespace: "otus"
+        remoteChart: "postgresql"
+        repo: 'https://charts.bitnami.com/bitnami'
+        wait: true
+        valuesFiles:
+          - deployments/postgres/values.yaml
+      - name: "user-service"
+        namespace: "otus"
+        chartPath: "deployments/user-service"
+        wait: true
+        valuesFiles:
+          - "deployments/user-service-values.yaml"

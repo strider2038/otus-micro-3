@@ -1,0 +1,98 @@
+POST {{host}}/api/v1/user
+Content-Type: application/json
+
+{
+  "username": "johndoe_{{$randomInt}}",
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "bestjohn_{{$randomInt}}@doe.com",
+  "phone": "+71002003040"
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 201, "Response status is not 201");
+});
+client.global.set("userId", response.body.id);
+ %}
+
+###
+
+PUT {{host}}/api/v1/user/{{userId}}
+Content-Type: application/json
+
+{
+  "firstName": "Johnny",
+  "lastName": "Silverhand",
+  "email": "better_john_{{$randomInt}}@doe.com",
+  "phone": "+71234567890"
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+ %}
+
+###
+
+GET {{host}}/api/v1/user/{{userId}}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+  client.assert(response.body.firstName === "Johnny", "User name is not Johnny")
+});
+ %}
+
+###
+
+## not existing user
+GET {{host}}/api/v1/user/123456789
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 404, "Response status is not 404");
+});
+ %}
+
+###
+
+## duplicated email
+PUT {{host}}/api/v1/user/{{userId}}
+Content-Type: application/json
+
+{
+  "firstName": "Johnny",
+  "lastName": "Silverhand",
+  "email": "bestjohn@doe.com",
+  "phone": "+71234567890"
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 422, "Response status is not 422");
+});
+ %}
+
+###
+
+DELETE {{host}}/api/v1/user/{{userId}}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 204, "Response status is not 204");
+});
+ %}
+
+###
+
+GET {{host}}/health
+
+###
+
+GET {{host}}/version
+
+###
+
+GET {{host}}/metrics
