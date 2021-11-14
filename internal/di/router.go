@@ -23,7 +23,7 @@ func NewRouter(connection *pgxpool.Pool, version, env string) http.Handler {
 	userApiController := api.NewUserApiController(userApiService)
 
 	apiRouter := api.NewRouter(userApiController)
-	metrics := api.NewMetrics(env, "user_service")
+	metrics := api.NewMetrics("user_service")
 	apiRouter.Use(func(handler http.Handler) http.Handler {
 		return api.MetricsMiddleware(handler, metrics)
 	})

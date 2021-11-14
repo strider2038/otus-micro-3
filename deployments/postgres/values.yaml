@@ -1,3 +1,0 @@
-postgresqlUsername: 'user_app'
-postgresqlPassword: 'pa$$word'
-postgresqlDatabase: 'users_db'

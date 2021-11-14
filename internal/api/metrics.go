@@ -14,12 +14,11 @@ type Metrics struct {
 	RequestDurations *prometheus.HistogramVec
 }
 
-func NewMetrics(namespace, subsystem string) *Metrics {
+func NewMetrics(namespace string) *Metrics {
 	return &Metrics{
 		RequestCount: promauto.NewCounterVec(
 			prometheus.CounterOpts{
 				Namespace: namespace,
-				Subsystem: subsystem,
 				Name:      "request_count",
 				Help:      "Request count",
 			},
@@ -28,7 +27,6 @@ func NewMetrics(namespace, subsystem string) *Metrics {
 		RequestDurations: promauto.NewHistogramVec(
 			prometheus.HistogramOpts{
 				Namespace: namespace,
-				Subsystem: subsystem,
 				Name:      "request_latency_seconds",
 				Help:      "Request latency in seconds",
 			},

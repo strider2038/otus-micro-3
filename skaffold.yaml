@@ -24,13 +24,6 @@ build:
 deploy:
   helm:
     releases:
-      - name: "postgres"
-        namespace: "otus"
-        remoteChart: "postgresql"
-        repo: 'https://charts.bitnami.com/bitnami'
-        wait: true
-        valuesFiles:
-          - deployments/postgres/values.yaml
       - name: "user-service"
         namespace: "otus"
         chartPath: "deployments/user-service"

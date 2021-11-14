@@ -6,4 +6,4 @@ migrations:
 secrets:
   postgres:
     password: "pa$$word"
-    host: "postgres-postgresql.otus.svc.cluster.local"
+    host: "user-service-postgresql.otus.svc.cluster.local"

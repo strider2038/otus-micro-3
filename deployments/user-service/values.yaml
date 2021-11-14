@@ -13,7 +13,7 @@ image:
 migrations:
   # Required in values.yaml.
   version: ""
-  jobTTL: 30
+  jobTTL: 60
   image:
     repository: strider2038/otus-micro-3-migrations
     pullPolicy: IfNotPresent
@@ -36,6 +36,18 @@ secrets:
     host: ""
     port: "5432"
     sslmode: "sslmode=disable"
+
+postgresql:
+  enabled: true
+  postgresqlUsername: 'user_app'
+  postgresqlPassword: 'pa$$word'
+  postgresqlDatabase: 'users_db'
+  service:
+    port: "5432"
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
 
 application:
   env: "prod"
