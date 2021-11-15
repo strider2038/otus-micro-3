@@ -35,6 +35,7 @@ func (repository *UserRepository) FindByID(ctx context.Context, id int64) (*user
 		LastName:  u.LastName,
 		Email:     u.Email,
 		Phone:     u.Phone,
+		Age:       u.Age,
 	}, nil
 }
 
@@ -65,6 +66,7 @@ func (repository *UserRepository) Save(ctx context.Context, user *users.User) er
 			LastName:  user.LastName,
 			Email:     user.Email,
 			Phone:     user.Phone,
+			Age:       user.Age,
 		})
 		if err != nil {
 			return fmt.Errorf("failed to create user: %w", err)
@@ -78,6 +80,7 @@ func (repository *UserRepository) Save(ctx context.Context, user *users.User) er
 			LastName:  user.LastName,
 			Email:     user.Email,
 			Phone:     user.Phone,
+			Age:       user.Age,
 		})
 		if err != nil {
 			return fmt.Errorf("failed to update user: %w", err)
@@ -89,6 +92,7 @@ func (repository *UserRepository) Save(ctx context.Context, user *users.User) er
 	user.LastName = u.LastName
 	user.Email = u.Email
 	user.Phone = u.Phone
+	user.Age = u.Age
 
 	return nil
 }

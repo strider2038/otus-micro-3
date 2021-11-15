@@ -27,6 +27,7 @@ type User struct {
 	LastName  string `json:"lastName,omitempty"`
 	Email     string `json:"email,omitempty"`
 	Phone     string `json:"phone,omitempty"`
+	Age       int16  `json:"age,omitempty"`
 }
 
 func (u User) Validate(ctx context.Context, validator *validation.Validator) error {
@@ -37,6 +38,7 @@ func (u User) Validate(ctx context.Context, validator *validation.Validator) err
 		validation.StringProperty("lastName", u.LastName, it.HasLengthBetween(1, 100)),
 		validation.StringProperty("email", u.Email, it.HasLengthBetween(1, 100), it.IsEmail()),
 		validation.StringProperty("phone", u.LastName, it.HasMaxLength(20)),
+		validation.NumberProperty("age", u.Age, it.IsBetweenIntegers(0, 100)),
 	)
 }
 

@@ -136,6 +136,7 @@ func (s *UserApiService) UpdateUser(ctx context.Context, userId int64, updatedUs
 	user.LastName = updatedUser.LastName
 	user.Email = updatedUser.Email
 	user.Phone = updatedUser.Phone
+	user.Age = updatedUser.Age
 
 	err = s.users.Save(ctx, user)
 	if err != nil {

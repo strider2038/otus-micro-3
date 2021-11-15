@@ -5,7 +5,7 @@ metadata:
 build:
   tagPolicy:
     envTemplate:
-      template: "v1"
+      template: "v2"
   artifacts:
     - image: strider2038/otus-micro-3-user-service
       context: .

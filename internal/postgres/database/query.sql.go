@@ -34,9 +34,9 @@ func (q *Queries) CountUsersByUsername(ctx context.Context, username string) (in
 }
 
 const createUser = `-- name: CreateUser :one
-INSERT INTO "user" (username, first_name, last_name, email, phone)
-VALUES ($1, $2, $3, $4, $5)
-RETURNING id, username, first_name, last_name, email, phone
+INSERT INTO "user" (username, first_name, last_name, email, phone, age)
+VALUES ($1, $2, $3, $4, $5, $6)
+RETURNING id, username, first_name, last_name, email, phone, age
 `
 
 type CreateUserParams struct {
@@ -45,6 +45,7 @@ type CreateUserParams struct {
 	LastName  string
 	Email     string
 	Phone     string
+	Age       int16
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
@@ -54,6 +55,7 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		arg.LastName,
 		arg.Email,
 		arg.Phone,
+		arg.Age,
 	)
 	var i User
 	err := row.Scan(
@@ -63,6 +65,7 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		&i.LastName,
 		&i.Email,
 		&i.Phone,
+		&i.Age,
 	)
 	return i, err
 }
@@ -79,7 +82,7 @@ func (q *Queries) DeleteUser(ctx context.Context, id int64) error {
 }
 
 const findUser = `-- name: FindUser :one
-SELECT id, username, first_name, last_name, email, phone
+SELECT id, username, first_name, last_name, email, phone, age
 FROM "user"
 WHERE id = $1
 LIMIT 1
@@ -95,15 +98,16 @@ func (q *Queries) FindUser(ctx context.Context, id int64) (User, error) {
 		&i.LastName,
 		&i.Email,
 		&i.Phone,
+		&i.Age,
 	)
 	return i, err
 }
 
 const updateUser = `-- name: UpdateUser :one
 UPDATE "user"
-SET username = $2, first_name = $3, last_name = $4, email = $5, phone = $6
+SET username = $2, first_name = $3, last_name = $4, email = $5, phone = $6, age = $7
 WHERE id = $1
-RETURNING id, username, first_name, last_name, email, phone
+RETURNING id, username, first_name, last_name, email, phone, age
 `
 
 type UpdateUserParams struct {
@@ -113,6 +117,7 @@ type UpdateUserParams struct {
 	LastName  string
 	Email     string
 	Phone     string
+	Age       int16
 }
 
 func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error) {
@@ -123,6 +128,7 @@ func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, e
 		arg.LastName,
 		arg.Email,
 		arg.Phone,
+		arg.Age,
 	)
 	var i User
 	err := row.Scan(
@@ -132,6 +138,7 @@ func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, e
 		&i.LastName,
 		&i.Email,
 		&i.Phone,
+		&i.Age,
 	)
 	return i, err
 }

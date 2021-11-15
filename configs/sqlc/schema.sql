@@ -5,5 +5,6 @@ CREATE TABLE "user"
     first_name text not null,
     last_name  text not null,
     email      text not null unique,
-    phone      text not null
+    phone      text not null,
+    age        smallint
 )

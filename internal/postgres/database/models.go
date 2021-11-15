@@ -11,4 +11,5 @@ type User struct {
 	LastName  string
 	Email     string
 	Phone     string
+	Age       int16
 }
